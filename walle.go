@@ -2,26 +2,21 @@ package main
 
 import (
 	"net/http"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"github.com/walle-go/walle-go/model"
 	"github.com/walle-go/walle-go/migration"
+	"github.com/walle-go/walle-go/repository"
+	"github.com/walle-go/walle-go/controller"
 )
 
 func main()  {
 	migration.Migration()
-	var user model.User
-	user.Name = "liuyibao"
-	model.InsertOne(user)
+	var userRepo repository.UserRepo
+	userRepo.InsertOne()
 	mux := httprouter.New()
-	mux.GET("/hello/:name", hello)
+	mux.GET("/user/:id", controller.UserList)
 	server := &http.Server{
 		Addr: "0.0.0.0:9090",
 		Handler: mux,
 	}
 	server.ListenAndServe()
-}
-
-func hello(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	fmt.Fprintf(w, "hello, %s!", p.ByName("name"))
 }
