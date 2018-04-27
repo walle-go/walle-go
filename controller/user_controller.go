@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/walle-go/walle-go/service"
 	"strconv"
+	"encoding/json"
+	"github.com/walle-go/walle-go/util"
 )
 
 func UserList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -14,7 +16,12 @@ func UserList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		panic(err)
 	}
 	user := service.NewUserService().Get(uint(id))
-	fmt.Fprintf(w, "hello, %s!", user.Name)
+	userByte, err := json.Marshal(user)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set(util.GetJsonHeader())
+	w.Write(userByte)
 }
 
 func UserCreate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
