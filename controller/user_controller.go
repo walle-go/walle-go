@@ -13,6 +13,11 @@ func UserList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
-	user := service.NewUserService().Info(uint(id))
+	user := service.NewUserService().Get(uint(id))
 	fmt.Fprintf(w, "hello, %s!", user.Name)
+}
+
+func UserCreate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	service.NewUserService().Create()
+	fmt.Fprintf(w, "success")
 }

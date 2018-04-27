@@ -13,6 +13,10 @@ func NewUserService() *UserService {
 	return &UserService{}
 }
 
-func (this UserService) Info(id uint) model.User {
-	return repository.NewUserRepo().GetOne(id)
+func (this UserService) Get(id uint) model.User {
+	return repository.NewUserRepo().Get(id)
+}
+
+func (this UserService) Create() model.User {
+	return repository.NewUserRepo().Create()
 }

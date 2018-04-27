@@ -2,11 +2,8 @@ package main
 
 import (
 	"net/http"
-	"github.com/julienschmidt/httprouter"
-	"github.com/walle-go/walle-go/controller"
 	"flag"
 	"github.com/walle-go/walle-go/migration"
-	"github.com/walle-go/walle-go/repository"
 	"log"
 )
 
@@ -30,11 +27,9 @@ func main()  {
 
 func serve() {
 	log.Println("Start serve...")
-	mux := httprouter.New()
-	mux.GET("/user/:id", controller.UserList)
 	server := &http.Server{
 		Addr: "0.0.0.0:9090",
-		Handler: mux,
+		Handler: getHandle(),
 	}
 	server.ListenAndServe()
 }
@@ -46,8 +41,5 @@ func initDatabase()  {
 }
 
 func test() {
-	log.Println("Start insert into test data.")
-	var userRepo repository.UserRepo
-	userRepo.InsertOne()
-	log.Println("Insert into end.")
+	log.Println("This is test.")
 }
